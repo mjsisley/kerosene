@@ -19,8 +19,8 @@ defmodule Kerosene.Paginator do
     |> page_list(page, total_pages, opts[:window])
     |> next_page(page, total_pages)
     |> last_page(page, total_pages, opts[:window], opts[:last])
-    |> Enum.map(fn {l, p} -> 
-     {label_text(l, opts), p, build_url(conn, Map.put(params, "page", p)), page == p} 
+    |> Enum.map(fn {l, p} ->
+     {label_text(l, opts), p, build_url(conn, Map.put(params, "page", p)), page == p}
     end)
   end
 
@@ -38,7 +38,7 @@ defmodule Kerosene.Paginator do
   Generates a page list based on current window
   """
   def page_list(list, page, total, window) when is_integer(window) and window >= 1 do
-    page_list = left(page, window)..right(page, window, total) 
+    page_list = left(page, window)..right(page, window, total)
     |> Enum.map(fn n -> {n, n} end)
     list ++ page_list
   end
@@ -77,9 +77,9 @@ defmodule Kerosene.Paginator do
   end
   def last_page(list, _page, _total, _window, _included), do: list
 
-  def build_url(conn, nil), do: conn.request_path
+  def build_url(conn, nil), do: conn["request_path"]
   def build_url(conn, params) do
-    "#{conn.request_path}?#{build_query(params)}"
+    "#{conn["request_path"]}?#{build_query(params)}"
   end
 
   @doc """
